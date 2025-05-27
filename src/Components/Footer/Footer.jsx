@@ -10,7 +10,7 @@ const Footer = () => {
     return (
 
         <footer className="footer footer-center bg-black text-white rounded p-10">
-            <h1 className='text-3xl font-extrabold'>Hotel Inner Heritage</h1>
+            <h1 className='text-3xl font-extrabold'>AuraTasks</h1>
             <nav className="grid grid-flow-col gap-4">
                 <a className="link link-hover" onClick={aboutUs}>About us</a>
                 <a className="link link-hover" onClick={() => setIsModalOpen(true)}>Privacy Polcy</a>
@@ -43,7 +43,7 @@ const Footer = () => {
                 </div>
             </nav>
             <aside>
-                <p>Copyright © {new Date().getFullYear()} - All right reserved by Hotel Inner Heritage company Ltd</p>
+                <p>Copyright © {new Date().getFullYear()} - All right reserved by the authority of AuraTasks</p>
             </aside>
 
             {isModalOpen && (
@@ -51,7 +51,7 @@ const Footer = () => {
                     <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
                         <h2 className="text-xl font-bold">Privacy Policy</h2>
                         <p className="mb-4">
-                            At Hotel Inner Heritage, we value your privacy. This Privacy Policy outlines how we collect,
+                            At AuraTasks, we value your privacy. This Privacy Policy outlines how we collect,
                             use, and protect your personal information when you use our services. We do not share your
                             data with third parties without your consent.
                         </p>

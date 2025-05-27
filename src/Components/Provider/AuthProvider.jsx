@@ -1,9 +1,132 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
+// import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
+// import React, { createContext, useState, useEffect } from "react";
+// // import { auth } from "../../../firebase.init";
+// import { auth } from "../../../firebase.init"
+
+// // export const AuthContext = createContext();
+// export const AuthContext = createContext()
+
+// const AuthProvider = ({ children }) => {
+//     const [user, setUser] = useState(null);
+//     const [loading, setLoading] = useState(true);
+//     const googleProvider = new GoogleAuthProvider();
+
+//     const createUser = async (email, password, userDetails) => {
+//         try {
+//             const userCredential = await createUserWithEmailAndPassword(
+//                 auth,
+//                 email,
+//                 password
+//             );
+//             const newUser = userCredential.user;
+
+//             await updateProfile(newUser, {
+//                 displayName: userDetails.displayName,
+//                 photoURL: userDetails.photoURL,
+//             });
+
+//             const updatedUser = {
+//                 ...newUser,
+//                 displayName: userDetails.displayName,
+//                 photoURL: userDetails.photoURL,
+//             };
+
+//             setUser(updatedUser);
+//             localStorage.setItem("userProfile", JSON.stringify(updatedUser));
+//             return newUser;
+//         } catch (error) {
+//             console.error("Error creating user:", error.message);
+//             throw error;
+//         }
+//     };
+
+//     const updateUserProfile = async (updatedUser) => {
+//         try {
+//             if (auth.currentUser) {
+//                 await updateProfile(auth.currentUser, {
+//                     displayName: updatedUser.displayName,
+//                     photoURL: updatedUser.photoURL,
+//                 });
+
+//                 const updatedProfile = {
+//                     ...auth.currentUser,
+//                     displayName: updatedUser.displayName,
+//                     photoURL: updatedUser.photoURL,
+//                 };
+
+//                 setUser(updatedProfile);
+//                 localStorage.setItem("userProfile", JSON.stringify(updatedProfile));
+//             }
+//         } catch (error) {
+//             console.error("Error updating profile:", error.message);
+//             throw error;
+//         }
+//     };
+
+//     const signOutUser = async () => {
+//         try {
+//             await signOut(auth);
+//             setUser(null);
+//             localStorage.removeItem("userProfile");
+//         } catch (error) {
+//             console.error("Sign-out error:", error.message);
+//         }
+//     };
+
+//     const signInWithGoogle = async () => {
+//         try {
+//             const result = await signInWithPopup(auth, googleProvider);
+//             const user = result.user;
+//             setUser(user);
+//             localStorage.setItem("userProfile", JSON.stringify(user));
+//             return user;
+//         } catch (error) {
+//             console.error("Google Sign-In error:", error.message);
+//             throw error;
+//         }
+//     };
+
+//     const signInUser = async (email, password) => {
+//         return await signInWithEmailAndPassword(auth, email, password);
+//     };
+
+//     useEffect(() => {
+//         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+//             if (currentUser) {
+//                 setUser(currentUser);
+//                 localStorage.setItem("userProfile", JSON.stringify(currentUser));
+//             } else {
+//                 setUser(null);
+//                 localStorage.removeItem("userProfile");
+//             }
+//             setLoading(false);
+//         });
+
+//         return () => unsubscribe();
+//     }, []);
+
+//     return (
+//         <AuthContext.Provider
+//             value={{
+//                 user,
+//                 createUser,
+//                 signInUser,
+//                 signOutUser,
+//                 signInWithGoogle,
+//                 updateUserProfile,
+//             }}
+//         >
+//             {!loading && children}
+//         </AuthContext.Provider>
+//     );
+// };
+
+// export default AuthProvider;
 import React, { createContext, useState, useEffect } from "react";
+import { GoogleAuthProvider, signInWithPopup, signOut, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../../firebase.init";
 
-// export const AuthContext = createContext();
-export const AuthContext = createContext()
+export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -12,52 +135,106 @@ const AuthProvider = ({ children }) => {
 
     const createUser = async (email, password, userDetails) => {
         try {
-            const userCredential = await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-            const newUser = userCredential.user;
-
-            await updateProfile(newUser, {
-                displayName: userDetails.displayName,
-                photoURL: userDetails.photoURL,
+            const response = await fetch("http://localhost:5000/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email,
+                    password,
+                    displayName: userDetails.displayName,
+                    firstName: userDetails.firstName,
+                    lastName: userDetails.lastName,
+                    photoURL: userDetails.photoURL,
+                    isGoogleUser: false,
+                }),
             });
 
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || "Registration failed");
+
             const updatedUser = {
-                ...newUser,
-                displayName: userDetails.displayName,
-                photoURL: userDetails.photoURL,
+                email: data.user.email,
+                displayName: data.user.displayName,
+                firstName: data.user.firstName,
+                lastName: data.user.lastName,
+                photoURL: data.user.photoURL,
             };
 
             setUser(updatedUser);
+            localStorage.setItem("token", data.token);
             localStorage.setItem("userProfile", JSON.stringify(updatedUser));
-            return newUser;
+            return updatedUser;
         } catch (error) {
             console.error("Error creating user:", error.message);
             throw error;
         }
     };
 
-    const updateUserProfile = async (updatedUser) => {
+    const signInUser = async (email, password) => {
         try {
-            if (auth.currentUser) {
-                await updateProfile(auth.currentUser, {
-                    displayName: updatedUser.displayName,
-                    photoURL: updatedUser.photoURL,
-                });
+            const response = await fetch("http://localhost:5000/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+            });
 
-                const updatedProfile = {
-                    ...auth.currentUser,
-                    displayName: updatedUser.displayName,
-                    photoURL: updatedUser.photoURL,
-                };
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || "Login failed");
 
-                setUser(updatedProfile);
-                localStorage.setItem("userProfile", JSON.stringify(updatedProfile));
-            }
+            const updatedUser = {
+                email: data.user.email,
+                displayName: data.user.displayName,
+                firstName: data.user.firstName,
+                lastName: data.user.lastName,
+                photoURL: data.user.photoURL,
+            };
+
+            setUser(updatedUser);
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("userProfile", JSON.stringify(updatedUser));
+            return updatedUser;
         } catch (error) {
-            console.error("Error updating profile:", error.message);
+            console.error("Error signing in:", error.message);
+            throw error;
+        }
+    };
+
+    const signInWithGoogle = async () => {
+        try {
+            const result = await signInWithPopup(auth, googleProvider);
+            const user = result.user;
+
+            const response = await fetch("http://localhost:5000/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    displayName: user.displayName || "Google User",
+                    photoURL: user.photoURL || "default-url",
+                    email: user.email,
+                    firstName: user.displayName?.split(" ")[0] || "Google",
+                    lastName: user.displayName?.split(" ")[1] || "User",
+                    isGoogleUser: true,
+                    registrationDate: new Date().toISOString(),
+                }),
+            });
+
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || "Failed to register Google user");
+
+            const updatedUser = {
+                email: user.email,
+                displayName: user.displayName,
+                firstName: user.displayName?.split(" ")[0] || "Google",
+                lastName: user.displayName?.split(" ")[1] || "User",
+                photoURL: user.photoURL,
+            };
+
+            setUser(updatedUser);
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("userProfile", JSON.stringify(updatedUser));
+            return updatedUser;
+        } catch (error) {
+            console.error("Google Sign-In error:", error.message);
             throw error;
         }
     };
@@ -66,42 +243,49 @@ const AuthProvider = ({ children }) => {
         try {
             await signOut(auth);
             setUser(null);
+            localStorage.removeItem("token");
             localStorage.removeItem("userProfile");
         } catch (error) {
             console.error("Sign-out error:", error.message);
         }
     };
 
-    const signInWithGoogle = async () => {
+    const handleForgotPassword = async (email) => {
         try {
-            const result = await signInWithPopup(auth, googleProvider);
-            const user = result.user;
-            setUser(user);
-            localStorage.setItem("userProfile", JSON.stringify(user));
-            return user;
+            await sendPasswordResetEmail(auth, email);
+            return true;
         } catch (error) {
-            console.error("Google Sign-In error:", error.message);
+            console.error("Password reset failed:", error.message);
             throw error;
         }
     };
 
-    const signInUser = async (email, password) => {
-        return await signInWithEmailAndPassword(auth, email, password);
-    };
-
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            if (currentUser) {
-                setUser(currentUser);
-                localStorage.setItem("userProfile", JSON.stringify(currentUser));
-            } else {
-                setUser(null);
-                localStorage.removeItem("userProfile");
-            }
+        const token = localStorage.getItem("token");
+        if (token) {
+            fetch("http://localhost:5000/profile", {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.email) {
+                        setUser(data);
+                    } else {
+                        setUser(null);
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("userProfile");
+                    }
+                    setLoading(false);
+                })
+                .catch(() => {
+                    setUser(null);
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("userProfile");
+                    setLoading(false);
+                });
+        } else {
             setLoading(false);
-        });
-
-        return () => unsubscribe();
+        }
     }, []);
 
     return (
@@ -112,7 +296,7 @@ const AuthProvider = ({ children }) => {
                 signInUser,
                 signOutUser,
                 signInWithGoogle,
-                updateUserProfile,
+                handleForgotPassword,
             }}
         >
             {!loading && children}
