@@ -7,6 +7,7 @@ import Login from './Components/Login/login'
 import Register from './Components/Register/Register'
 import Root from './Components/Root'
 import AuthProvider from './Components/Provider/AuthProvider'
+import Dashboard from './Components/Dashboard/Dashboard'
 
 
 const router = createBrowserRouter([
@@ -15,7 +16,7 @@ const router = createBrowserRouter([
     element: <Root />,
     // errorElement: <ErrorPage></ErrorPage>,
     children: [
-      // { path: "/", element: <Home></Home> },
+      { path: "/", element: <Dashboard></Dashboard> },
       { path: "login", element: <Login></Login> },
       { path: "register", element: <Register></Register> },
 
