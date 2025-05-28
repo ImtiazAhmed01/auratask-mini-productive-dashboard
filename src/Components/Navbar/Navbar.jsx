@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { AuthContext } from "../Provider/authProvider";
 import { NavLink, useNavigate } from "react-router-dom";
+import logoImage from "../../assets/banner/images.png";
 import { useState } from "react";
 
 const Navbar = () => {
@@ -29,39 +30,39 @@ const Navbar = () => {
     };
 
 
-    const links = (
-        <>
-            <li>
-                <NavLink to="/" className={({ isActive }) => isActive ? "text-[#00C853] font-bold" : "hover:text-[#00C853]"}>
-                    Home
-                </NavLink>
-            </li>
-            <li>
-                <NavLink to="/roomspage" className={({ isActive }) => isActive ? "text-[#00C853] font-bold" : "hover:text-[#00C853]"}>
-                    Rooms
-                </NavLink>
-            </li>
-            <li>
-                <NavLink to="/aboutus" className={({ isActive }) => isActive ? "text-[#00C853] font-bold" : "hover:text-[#00C853]"}>
-                    About Us
-                </NavLink>
-            </li>
-            {user && user.displayName && (
-                <>
-                    <li>
-                        <NavLink to="/mybookings" className={({ isActive }) => isActive ? "text-[#00C853] font-bold" : "hover:text-[#00C853]"}>
-                            My Bookings
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/myreviews" className={({ isActive }) => isActive ? "text-[#00C853] font-bold" : "hover:text-[#00C853]"}>
-                            My Reviews
-                        </NavLink>
-                    </li>
-                </>
-            )}
-        </>
-    );
+    // const links = (
+    //     <>
+    //         <li>
+    //             <NavLink to="/" className={({ isActive }) => isActive ? "text-[#00C853] font-bold" : "hover:text-[#00C853]"}>
+    //                 Home
+    //             </NavLink>
+    //         </li>
+    //         <li>
+    //             <NavLink to="/roomspage" className={({ isActive }) => isActive ? "text-[#00C853] font-bold" : "hover:text-[#00C853]"}>
+    //                 Rooms
+    //             </NavLink>
+    //         </li>
+    //         <li>
+    //             <NavLink to="/aboutus" className={({ isActive }) => isActive ? "text-[#00C853] font-bold" : "hover:text-[#00C853]"}>
+    //                 About Us
+    //             </NavLink>
+    //         </li>
+    //         {user && user.displayName && (
+    //             <>
+    //                 <li>
+    //                     <NavLink to="/mybookings" className={({ isActive }) => isActive ? "text-[#00C853] font-bold" : "hover:text-[#00C853]"}>
+    //                         My Bookings
+    //                     </NavLink>
+    //                 </li>
+    //                 <li>
+    //                     <NavLink to="/myreviews" className={({ isActive }) => isActive ? "text-[#00C853] font-bold" : "hover:text-[#00C853]"}>
+    //                         My Reviews
+    //                     </NavLink>
+    //                 </li>
+    //             </>
+    //         )}
+    //     </>
+    // );
 
     return (
 
@@ -104,8 +105,8 @@ const Navbar = () => {
                         </ul>
                     </div>
 
-                    <NavLink to="/" className="text-2xl font-bold text-[#FAFAFA]">
-                        AuraTasks
+                    <NavLink to="/" className="text-2xl font-bold text-[#FAFAFA] flex gap-2">
+                        <img className="w-8 h-8 bg-white" src={logoImage} alt="" /> AuraTasks
                     </NavLink>
                 </div>
 
