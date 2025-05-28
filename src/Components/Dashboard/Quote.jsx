@@ -75,7 +75,7 @@ const Quote = () => {
             variants={quoteVariants}
             initial="hidden"
             animate="visible"
-            className="bg-white p-4 rounded-lg shadow-md mb-6 text-center"
+            className="border border-white p-4 rounded-lg shadow-md mb-6 text-center"
         >
             <p className="text-lg italic">"{quote.text}"</p>
             <p className="text-sm text-gray-600 mt-2">— {quote.author}</p>
