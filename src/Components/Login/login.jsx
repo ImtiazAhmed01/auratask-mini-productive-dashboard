@@ -6,7 +6,7 @@ import { Bounce, toast, ToastContainer } from "react-toastify";
 // import { AuthContext } from "../Provider/AuthProvider";
 import logImage from "../../assets/banner/login.png";
 import "react-toastify/dist/ReactToastify.css";
-import { AuthContext } from "../Provider/authProvider";
+import { AuthContext } from "../Provider/AuthProvider";
 
 const Login = () => {
     const { signInUser, signInWithGoogle, handleForgotPassword } = useContext(AuthContext);
