@@ -5,13 +5,14 @@ import { getAuth } from 'firebase/auth';
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
+
 const firebaseConfig = {
-    apiKey: "AIzaSyCe-dMaq52Mphhjb-j-o5hvNpmySizk-To",
-    authDomain: "auratasks-fb8eb.firebaseapp.com",
-    projectId: "auratasks-fb8eb",
-    storageBucket: "auratasks-fb8eb.firebasestorage.app",
-    messagingSenderId: "319191469459",
-    appId: "1:319191469459:web:8b8eac721ebb1548036c66"
+    apiKey: import.meta.env.VITE_apiKey,
+    authDomain: import.meta.env.VITE_authDomain,
+    projectId: import.meta.env.VITE_projectId,
+    storageBucket: import.meta.env.VITE_storageBucket,
+    messagingSenderId: import.meta.env.VITE_messagingSenderId,
+    appId: import.meta.env.VITE_appId,
 };
 
 // Initialize Firebase
