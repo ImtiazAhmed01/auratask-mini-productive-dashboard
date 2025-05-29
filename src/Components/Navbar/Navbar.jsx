@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { AuthContext } from "../Provider/authProvider";
+import { AuthContext } from "../Provider/AuthProvider";
 import { NavLink, useNavigate } from "react-router-dom";
 import logoImage from "../../assets/banner/images.png";
 import { useState } from "react";
