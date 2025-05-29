@@ -3,7 +3,8 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { AuthContext } from "../Provider/AuthProvider"
+import { AuthContext } from "../Provider/AuthProvider";
+
 
 const Register = () => {
     const { createUser, signInWithGoogle } = useContext(AuthContext);
