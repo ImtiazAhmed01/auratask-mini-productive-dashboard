@@ -198,28 +198,4 @@ JWT_SECRET=your-secret-key
 
 ---
 
-## 👥 Contributors
 
-* [Your Name](https://github.com/yourusername)
-
-> Want to contribute? Feel free to fork this repo and submit a pull request!
-
----
-
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
-
-```
-
----
-
-✅ **Next Steps for You**:
-- Replace placeholders like:
-  - `https://your-frontend-url.vercel.app`
-  - `https://github.com/yourusername`
-  - `your-mongodb-uri`, `your-secret-key`
-- Create the `LICENSE` file if you haven’t already.
-
-Let me know if you want me to generate the `.env.example` file or split the README into frontend/backend later!
-```
