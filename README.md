@@ -1,4 +1,4 @@
-
+![AuraTasks Screenshot](https://i.ibb.co/4y4fgV6/Screenshot-92.png)
 # Mini Productivity Dashboard
 
 A simple, elegant web-based productivity dashboard that helps users manage daily tasks, set personal goals, and stay inspired with motivational quotes. Built using **React.js**, **TailwindCSS**, **Node.js**, **Express**, and **MongoDB**, this full-stack app includes user authentication, task/goal tracking, a motivational quote widget, and features like dark/light mode and drag-and-drop task reordering.
