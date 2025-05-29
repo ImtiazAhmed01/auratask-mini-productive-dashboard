@@ -135,7 +135,7 @@ const AuthProvider = ({ children }) => {
 
     const createUser = async (email, password, userDetails) => {
         try {
-            const response = await fetch("http://localhost:5000/register", {
+            const response = await fetch("https://auratasks-mini-productive-dasboard-server.onrender.com/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -172,7 +172,7 @@ const AuthProvider = ({ children }) => {
 
     const signInUser = async (email, password) => {
         try {
-            const response = await fetch("http://localhost:5000/login", {
+            const response = await fetch("https://auratasks-mini-productive-dasboard-server.onrender.com/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
@@ -204,7 +204,7 @@ const AuthProvider = ({ children }) => {
             const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
 
-            const response = await fetch("http://localhost:5000/register", {
+            const response = await fetch("https://auratasks-mini-productive-dasboard-server.onrender.com/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -263,7 +263,7 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
-            fetch("http://localhost:5000/profile", {
+            fetch("https://auratasks-mini-productive-dasboard-server.onrender.com/profile", {
                 headers: { Authorization: `Bearer ${token}` },
             })
                 .then(res => res.json())
