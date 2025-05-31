@@ -35,12 +35,9 @@ A simple, elegant web-based productivity dashboard that helps users manage daily
 
 ---
 
-## 🌐 Demo
+## Live Link
 
-**Live Frontend:** [https://your-frontend-url.vercel.app](https://your-frontend-url.vercel.app)  
-**Live Backend:** [https://your-backend-url.onrender.com](https://your-backend-url.onrender.com)
-
-> ⚠️ Replace these demo URLs with your actual deployed links.
+ - Click [here](https://auratasks-fb8eb.web.app/login) to watch the website.
 
 ---
 
